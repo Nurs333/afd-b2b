@@ -965,41 +965,6 @@ img {
   background: #fff;
 }
 
-.phone-shot__caption {
-  --glass-blur: 16px;
-  --glass-surface: rgba(18, 4, 62, 0.62);
-  --glass-border: rgba(255, 255, 255, 0.18);
-  --glass-shadow: 0 14px 34px rgba(2, 0, 22, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  display: flex;
-  min-height: 46px;
-  align-items: center;
-  gap: 9px;
-  margin: -18px 11px 0;
-  padding: 10px 12px;
-  border-radius: 15px;
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.phone-shot__caption span {
-  display: grid;
-  flex: 0 0 24px;
-  width: 24px;
-  height: 24px;
-  place-items: center;
-  border-radius: 50%;
-  background: rgba(164, 70, 243, 0.72);
-  color: var(--white);
-  font-size: 8px;
-  font-weight: 850;
-  letter-spacing: 0.05em;
-}
-
-.phone-shot__caption strong {
-  font-size: 10px;
-  font-weight: 780;
-  line-height: 1.2;
-}
-
 .phone-snake__connector {
   position: relative;
   display: grid;
@@ -1992,24 +1957,6 @@ body.is-map-open {
 
   .phone-shot img {
     border-radius: 23px;
-  }
-
-  .phone-shot__caption {
-    min-height: 42px;
-    margin: -16px 8px 0;
-    padding: 9px 10px;
-    border-radius: 13px;
-  }
-
-  .phone-shot__caption span {
-    flex-basis: 22px;
-    width: 22px;
-    height: 22px;
-    font-size: 7px;
-  }
-
-  .phone-shot__caption strong {
-    font-size: 9px;
   }
 
   .step-card {
