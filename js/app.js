@@ -46,16 +46,34 @@ function resolveInitialLanguage() {
   const stored = getStoredLanguage();
   if (stored && supportedLanguages.has(stored)) return stored;
 
-  const browserLanguage = (navigator.language || "ru").toLowerCase();
-  if (browserLanguage.startsWith("kk") || browserLanguage.startsWith("kz")) return "kz";
-  if (browserLanguage.startsWith("en")) return "en";
-  return "ru";
+  return "en";
 }
 
 let currentLanguage = resolveInitialLanguage();
 
 function currentCopy() {
-  return translations[currentLanguage] || translations.ru;
+  return translations[currentLanguage] || translations.en;
+}
+
+function updateAfdLocalizedLinks(language) {
+  const locale = language === "kz" ? "kz" : language;
+  const base = `https://astanafindays.org/${locale}`;
+  const routes = Object.freeze({
+    home: `${base}/`,
+    programme: `${base}/programme`,
+    speakers: `${base}/speakers`,
+    exhibition: `${base}/#exhibition`,
+    partners: `${base}/#partners`,
+    register: `${base}/register`,
+    faq: `${base}/faq`,
+    terms: `${base}/terms`,
+    privacy: `${base}/privacy`,
+  });
+
+  document.querySelectorAll("[data-afd-route]").forEach((link) => {
+    const route = link.dataset.afdRoute || "home";
+    if (Object.hasOwn(routes, route)) link.setAttribute("href", routes[route]);
+  });
 }
 
 function updatePrimaryStoreLinks() {
@@ -118,6 +136,11 @@ function setLanguage(language, { persist = true } = {}) {
     if (key && Object.hasOwn(copy, key)) node.setAttribute("aria-label", copy[key]);
   });
 
+  document.querySelectorAll("[data-i18n-title]").forEach((node) => {
+    const key = node.dataset.i18nTitle;
+    if (key && Object.hasOwn(copy, key)) node.setAttribute("title", copy[key]);
+  });
+
   document.querySelectorAll("[data-language]").forEach((button) => {
     const isActive = button.dataset.language === language;
     button.classList.toggle("is-active", isActive);
@@ -128,6 +151,7 @@ function setLanguage(language, { persist = true } = {}) {
   root.dataset.language = language;
   document.title = copy.metaTitle;
   updatePrimaryStoreLinks();
+  updateAfdLocalizedLinks(language);
 
   if (persist) storeLanguage(language);
   document.dispatchEvent(new CustomEvent("b2b:languagechange", { detail: { language } }));
@@ -136,7 +160,7 @@ function setLanguage(language, { persist = true } = {}) {
 function initLanguageSwitcher() {
   document.querySelectorAll("[data-language]").forEach((button) => {
     button.addEventListener("click", () => {
-      setLanguage(button.dataset.language || "ru");
+      setLanguage(button.dataset.language || "en");
     });
   });
 
@@ -220,7 +244,7 @@ function initAfdHeaderState() {
     const scrollTop = Math.max(window.scrollY || 0, document.documentElement.scrollTop || 0);
     const progress = Math.min(scrollTop / 150, 1);
 
-    header.classList.toggle("is-scrolled", scrollTop > 18);
+    header.classList.toggle("is-scrolled", scrollTop > 42);
     header.style.setProperty("--brand-scale", (1 - progress * 0.055).toFixed(3));
     header.style.setProperty("--nav-scale", (1 - progress * 0.025).toFixed(3));
     updateActiveLink(scrollTop);
@@ -269,23 +293,32 @@ function initStickyCta() {
   const sticky = document.querySelector("[data-sticky-cta]");
   const hero = document.querySelector("#hero");
   const download = document.querySelector("#download");
+  const footer = document.querySelector("footer");
   if (!sticky || !hero) return;
 
   const state = {
     heroVisible: true,
     downloadVisible: false,
+    footerVisible: false,
   };
 
   const render = () => {
-    sticky.classList.toggle("is-visible", !state.heroVisible && !state.downloadVisible);
+    sticky.classList.toggle(
+      "is-visible",
+      !state.heroVisible && !state.downloadVisible && !state.footerVisible,
+    );
   };
 
   if (!("IntersectionObserver" in window)) {
     const update = () => {
       const downloadRect = download?.getBoundingClientRect();
+      const footerRect = footer?.getBoundingClientRect();
       state.heroVisible = window.scrollY <= hero.clientHeight * 0.55;
       state.downloadVisible = Boolean(
         downloadRect && downloadRect.top < window.innerHeight && downloadRect.bottom > 0,
+      );
+      state.footerVisible = Boolean(
+        footerRect && footerRect.top < window.innerHeight && footerRect.bottom > 0,
       );
       render();
     };
@@ -314,6 +347,17 @@ function initStickyCta() {
       { threshold: 0.08 },
     );
     downloadObserver.observe(download);
+  }
+
+  if (footer) {
+    const footerObserver = new IntersectionObserver(
+      ([entry]) => {
+        state.footerVisible = entry.isIntersecting;
+        render();
+      },
+      { threshold: 0.02 },
+    );
+    footerObserver.observe(footer);
   }
 }
 

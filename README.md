@@ -37,7 +37,7 @@ The project has no build step or runtime dependencies. Upload the repository as 
 - Replace files in `assets/` while preserving filenames to update visuals without changing markup.
 - The event-photo carousel advances automatically, pauses during interaction, supports arrows, dots and swipe gestures, and respects reduced-motion preferences.
 - Clicking the venue plan opens an accessible enlarged map dialog.
-- The public contact address is `connect@aifc.kz` in the footer.
+- The footer uses the official AFD contact addresses: `afd@aifc.kz` and `partnership@aifc.kz`.
 
 ## Verification
 
