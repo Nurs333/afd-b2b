@@ -59,11 +59,14 @@ function updateAfdLocalizedLinks(language) {
   const locale = language === "kz" ? "kz" : language;
   const base = `https://astanafindays.org/${locale}`;
   const routes = Object.freeze({
-    home: `${base}/`,
+    home: `${base}`,
+    about: `${base}#about`,
     programme: `${base}/programme`,
     speakers: `${base}/speakers`,
-    exhibition: `${base}/#exhibition`,
-    partners: `${base}/#partners`,
+    partners: `${base}#partners`,
+    exhibition: `${base}#exhibition`,
+    news: `${base}#news`,
+    travel: `${base}/travel`,
     register: `${base}/register`,
     faq: `${base}/faq`,
     terms: `${base}/terms`,
@@ -202,7 +205,7 @@ function initSiteMenu() {
   closeButton?.addEventListener("click", () => setMenuState(false));
   backdrop.addEventListener("click", () => setMenuState(false));
 
-  menu.querySelectorAll('a[href^="#"]').forEach((link) => {
+  menu.querySelectorAll('a').forEach((link) => {
     link.addEventListener("click", () => setMenuState(false, { restoreFocus: false }));
   });
 
@@ -218,36 +221,15 @@ function initAfdHeaderState() {
   const header = document.querySelector("[data-header]");
   if (!header) return;
 
-  const navLinks = [...document.querySelectorAll("[data-afd-nav] a[href^=\"#\"]")];
-  const sections = navLinks
-    .map((link) => document.querySelector(link.getAttribute("href")))
-    .filter(Boolean);
   let frameRequested = false;
-
-  const updateActiveLink = (scrollTop) => {
-    const marker = scrollTop + Math.min(window.innerHeight * 0.34, 310);
-    let activeId = sections[0]?.id || "";
-
-    sections.forEach((section) => {
-      if (section.offsetTop <= marker) activeId = section.id;
-    });
-
-    navLinks.forEach((link) => {
-      const isActive = link.getAttribute("href") === `#${activeId}`;
-      link.classList.toggle("is-active", isActive);
-      if (isActive) link.setAttribute("aria-current", "location");
-      else link.removeAttribute("aria-current");
-    });
-  };
 
   const update = () => {
     const scrollTop = Math.max(window.scrollY || 0, document.documentElement.scrollTop || 0);
     const progress = Math.min(scrollTop / 150, 1);
 
     header.classList.toggle("is-scrolled", scrollTop > 42);
-    header.style.setProperty("--brand-scale", (1 - progress * 0.055).toFixed(3));
-    header.style.setProperty("--nav-scale", (1 - progress * 0.025).toFixed(3));
-    updateActiveLink(scrollTop);
+    header.style.setProperty("--brand-scale", (1 - progress * 0.045).toFixed(3));
+    header.style.setProperty("--nav-scale", (1 - progress * 0.018).toFixed(3));
     frameRequested = false;
   };
 
