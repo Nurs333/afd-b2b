@@ -27,7 +27,7 @@ The project has no build step or runtime dependencies. Upload the repository as 
 - `assets/afd-logo-color.png` — official-colour AFD mark shown inside the compact cream pill after scrolling
 - `assets/afd-b2b-*.webp` — optimized B2B Meeting Zone photography supplied for the event
 - `assets/app-*.webp` — optimized screenshots for the three-step app walkthrough
-- `assets/venue-map.webp` — route from КПП 7 to B2B Meeting Zone C3.4
+- `assets/venue-map.webp` — indoor AIFC plan highlighting B2B Meeting Zone C3.4
 
 ## Content updates
 
@@ -36,7 +36,7 @@ The project has no build step or runtime dependencies. Upload the repository as 
 - Edit the official AFD website URL on the `.afd-brand`, `data-afd-link`, and footer links in `index.html`.
 - Replace files in `assets/` while preserving filenames to update visuals without changing markup.
 - The event-photo carousel advances automatically, pauses during interaction, supports arrows, dots and swipe gestures, and respects reduced-motion preferences.
-- Clicking the venue plan opens an accessible enlarged map dialog.
+- The venue section switches between an embedded Google Maps view and the AIFC indoor plan; the indoor plan opens in an accessible enlarged dialog.
 - The footer uses the official AFD contact addresses: `afd@aifc.kz` and `partnership@aifc.kz`.
 
 ## Verification

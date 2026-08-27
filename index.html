@@ -284,38 +284,66 @@
 <section aria-labelledby="venue-title" class="venue afd-section afd-section--light" id="venue">
 <div aria-hidden="true" class="venue__glow"></div>
 <div class="shell">
-<div class="venue-card afd-surface-card afd-map-card" data-reveal="">
+<div class="venue-card venue-card--locator afd-surface-card afd-map-card" data-reveal="">
 <div class="venue-card__copy">
-<p class="eyebrow" data-i18n="venueEyebrow">КАК НАС НАЙТИ</p>
+<p class="eyebrow" data-i18n="venueEyebrow">ГДЕ НАХОДИТСЯ ЗОНА</p>
 <h2 class="section-title venue-card__title" data-i18n="venueTitle" id="venue-title">
                 Где находится B2B Зона Встреч
               </h2>
 <p class="venue-card__text" data-i18n="venueText">
-                Основная зона встреч находится в блоке C3.4. Следуйте маршруту от КПП 7, отмеченному точками на схеме.
+                Используйте Google Maps, чтобы добраться до AIFC, а внутреннюю схему — чтобы найти B2B Зону Встреч в блоке C3.4.
               </p>
 <div class="venue-card__facts">
 <span>
-<small data-i18n="venueDestinationLabel">Точка назначения</small>
-<strong data-i18n="venueDestinationValue">Блок C3.4 · 55/19</strong>
+<small data-i18n="venueGoogleAddressLabel">Адрес AIFC</small>
+<strong data-i18n="venueGoogleAddress">Мангилик Ел 55/19, Астана</strong>
 </span>
 <span>
-<small data-i18n="venueEntryLabel">Вход</small>
-<strong data-i18n="venueEntryValue">КПП 7</strong>
+<small data-i18n="venueIndoorLabel">Внутри AIFC</small>
+<strong data-i18n="venueIndoorValue">B2B Зона Встреч · Блок C3.4</strong>
 </span>
 </div>
 </div>
-<button aria-controls="venue-map-dialog" aria-haspopup="dialog" aria-label="Открыть схему расположения B2B Зоны Встреч" class="venue-card__map afd-action" data-i18n-aria-label="venueMapOpenLabel" data-map-open="" type="button">
-<img alt="Схема маршрута от КПП 7 к B2B Зоне Встреч в блоке C3.4" data-i18n-alt="venueMapAlt" decoding="async" height="1238" loading="lazy" src="assets/venue-map.webp" width="1280"/>
-<span class="venue-card__map-overlay">
-<span aria-hidden="true" class="venue-card__map-icon">
-<svg viewbox="0 0 24 24">
-<circle cx="10.5" cy="10.5" r="5.5"></circle>
-<path d="m15 15 4.5 4.5M10.5 8v5M8 10.5h5"></path>
-</svg>
-</span>
-<strong data-i18n="venueMapButton">Открыть схему</strong>
-</span>
+<div class="venue-locator" data-venue-locator="">
+<div aria-label="Выберите вид карты" class="venue-locator__tabs" data-i18n-aria-label="venueTabsLabel" role="tablist">
+<button aria-controls="venue-panel-google" aria-selected="true" class="venue-locator__tab" data-i18n="venueTabGoogle" data-venue-tab="google" id="venue-tab-google" role="tab" tabindex="0" type="button">Google Maps</button>
+<button aria-controls="venue-panel-indoor" aria-selected="false" class="venue-locator__tab" data-i18n="venueTabIndoor" data-venue-tab="indoor" id="venue-tab-indoor" role="tab" tabindex="-1" type="button">Внутри AIFC</button>
+</div>
+<div class="venue-locator__viewport">
+<section aria-labelledby="venue-tab-google" class="venue-locator__panel" data-venue-panel="google" id="venue-panel-google" role="tabpanel" tabindex="0">
+<div class="venue-locator__media venue-locator__google-map">
+<iframe allowfullscreen="" data-i18n-title="venueGoogleMapTitle" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=51.087365%2C71.416059&amp;output=embed" title="B2B Meeting Zone, Block C3.4, in Google Maps"></iframe>
+</div>
+<div class="venue-locator__caption">
+<div class="venue-locator__caption-copy">
+<small data-i18n="venueGoogleEyebrow">КАК ДОБРАТЬСЯ</small>
+<strong data-i18n="venueGoogleTitle">Astana International Financial Centre</strong>
+<span data-i18n="venueGoogleAddress">Мангилик Ел 55/19, Астана</span>
+</div>
+<a aria-label="Открыть блок C3.4 в Google Maps" class="venue-locator__cta afd-action" data-google-maps-link="" data-i18n-aria-label="venueGoogleCtaLabel" href="https://maps.app.goo.gl/53ZcA3f97idbXYtA6" rel="noopener noreferrer" target="_blank">
+<span data-i18n="venueGoogleCta">Открыть в Google Maps</span>
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"></path></svg>
+</a>
+</div>
+</section>
+<section aria-labelledby="venue-tab-indoor" class="venue-locator__panel" data-venue-panel="indoor" hidden="" id="venue-panel-indoor" role="tabpanel" tabindex="0">
+<div class="venue-locator__media venue-locator__indoor-map">
+<img alt="Внутренняя схема AIFC с B2B Зоной Встреч в блоке C3.4" data-i18n-alt="venueMapAlt" decoding="async" height="1238" loading="lazy" src="assets/venue-map.webp" width="1280"/>
+</div>
+<div class="venue-locator__caption">
+<div class="venue-locator__caption-copy">
+<small data-i18n="venueIndoorEyebrow">ВНУТРИ AIFC</small>
+<strong data-i18n="venueIndoorTitle">B2B Зона Встреч</strong>
+<span data-i18n="venueIndoorValue">Блок C3.4</span>
+</div>
+<button aria-controls="venue-map-dialog" aria-haspopup="dialog" aria-label="Открыть схему расположения B2B Зоны Встреч" class="venue-locator__cta afd-action" data-i18n-aria-label="venueMapOpenLabel" data-map-open="" type="button">
+<span data-i18n="venueIndoorCta">Открыть схему</span>
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"></path></svg>
 </button>
+</div>
+</section>
+</div>
+</div>
 </div>
 </div>
 </section>

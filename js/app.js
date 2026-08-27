@@ -274,12 +274,14 @@ function initRevealAnimations() {
 function initStickyCta() {
   const sticky = document.querySelector("[data-sticky-cta]");
   const hero = document.querySelector("#hero");
+  const venue = document.querySelector("#venue");
   const download = document.querySelector("#download");
   const footer = document.querySelector("footer");
   if (!sticky || !hero) return;
 
   const state = {
     heroVisible: true,
+    venueVisible: false,
     downloadVisible: false,
     footerVisible: false,
   };
@@ -287,15 +289,19 @@ function initStickyCta() {
   const render = () => {
     sticky.classList.toggle(
       "is-visible",
-      !state.heroVisible && !state.downloadVisible && !state.footerVisible,
+      !state.heroVisible && !state.venueVisible && !state.downloadVisible && !state.footerVisible,
     );
   };
 
   if (!("IntersectionObserver" in window)) {
     const update = () => {
+      const venueRect = venue?.getBoundingClientRect();
       const downloadRect = download?.getBoundingClientRect();
       const footerRect = footer?.getBoundingClientRect();
       state.heroVisible = window.scrollY <= hero.clientHeight * 0.55;
+      state.venueVisible = Boolean(
+        venueRect && venueRect.top < window.innerHeight && venueRect.bottom > 0,
+      );
       state.downloadVisible = Boolean(
         downloadRect && downloadRect.top < window.innerHeight && downloadRect.bottom > 0,
       );
@@ -319,6 +325,17 @@ function initStickyCta() {
     { threshold: 0.08, rootMargin: "-72px 0px 0px" },
   );
   heroObserver.observe(hero);
+
+  if (venue) {
+    const venueObserver = new IntersectionObserver(
+      ([entry]) => {
+        state.venueVisible = entry.isIntersecting;
+        render();
+      },
+      { threshold: 0.04 },
+    );
+    venueObserver.observe(venue);
+  }
 
   if (download) {
     const downloadObserver = new IntersectionObserver(
@@ -354,6 +371,48 @@ function initSmoothAnchors() {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   });
+}
+
+function initVenueTabs() {
+  const locator = document.querySelector("[data-venue-locator]");
+  if (!locator) return;
+
+  const tabs = [...locator.querySelectorAll("[data-venue-tab]")];
+  const panels = [...locator.querySelectorAll("[data-venue-panel]")];
+  if (!tabs.length || !panels.length) return;
+
+  const activate = (name, { focus = false } = {}) => {
+    tabs.forEach((tab) => {
+      const isActive = tab.dataset.venueTab === name;
+      tab.setAttribute("aria-selected", String(isActive));
+      tab.tabIndex = isActive ? 0 : -1;
+      tab.classList.toggle("is-active", isActive);
+      if (isActive && focus) tab.focus();
+    });
+
+    panels.forEach((panel) => {
+      const isActive = panel.dataset.venuePanel === name;
+      panel.hidden = !isActive;
+      panel.classList.toggle("is-active", isActive);
+    });
+  };
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => activate(tab.dataset.venueTab || "google"));
+    tab.addEventListener("keydown", (event) => {
+      let nextIndex = null;
+      if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+      if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+      if (event.key === "Home") nextIndex = 0;
+      if (event.key === "End") nextIndex = tabs.length - 1;
+      if (nextIndex === null) return;
+      event.preventDefault();
+      activate(tabs[nextIndex].dataset.venueTab || "google", { focus: true });
+    });
+  });
+
+  const initial = tabs.find((tab) => tab.getAttribute("aria-selected") === "true") || tabs[0];
+  activate(initial.dataset.venueTab || "google");
 }
 
 function initMapDialog() {
@@ -610,6 +669,7 @@ initAfdHeaderState();
 initRevealAnimations();
 initStickyCta();
 initSmoothAnchors();
+initVenueTabs();
 initMapDialog();
 initPhotoCarousel();
 initGlassHighlights();
